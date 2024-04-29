@@ -3,10 +3,12 @@ import CpmTable from "./components/CpmTable";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <CpmTable />
+    <div className="">
+      <header>
       </header>
+        <main className='flex justify-center'>
+            <CpmTable />
+        </main>
     </div>
   );
 }

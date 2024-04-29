@@ -6,9 +6,8 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     width: 720px;
 }
-table thead tr {
+table thead tr th {
     background-color: #4bbd7f;
-    color: #ffffff;
     text-align: center;
 }
 table th,
@@ -26,7 +25,11 @@ table tbody tr.active-row {
     color: #4bbd7f;
 }
 table td input {
-    width: 150px;
+    width: 100%;
+    background: #d0d9d4;
+    color: black;
+    border: 1px #d0d9d4 solid;
+    text-align: center;
 }
 /*table td:first-child input {*/
 /*    width: 50px;*/
