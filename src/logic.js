@@ -1,23 +1,20 @@
-// cpmCalculator.js
+const Graph = require('graphlib').Graph;
 
-import { Graph } from 'graphlib';
-
-// Funkcja do obliczania CPM
-export function calculateCPM(tasks) {
-  // Tworzymy graf
+function calculateCPM(tasks) {
   const graph = new Graph({ directed: true });
 
-  // Dodajemy zadania do grafu
   tasks.forEach(task => {
-    graph.setNode(task.id, { duration: task.duration });
-    task.dependencies.forEach(dep => {
-      graph.setEdge(dep, task.id);
+    graph.setNode(task.id);
+    Object.entries(task.dependencies).forEach(([dependency, duration]) => {
+      graph.setEdge(dependency, task.id, { duration });
     });
   });
 
-  // Obliczamy najwcześniejszy czas rozpoczęcia (ES) i najwcześniejszy czas zakończenia (EF)
+
+
   const es = {};
   const ef = {};
+  console.log(graph.sources());
   graph.sources().forEach(node => {
     es[node] = 0;
     calculateEF(node);
@@ -26,13 +23,13 @@ export function calculateCPM(tasks) {
   function calculateEF(node) {
     const successors = graph.successors(node);
     successors.forEach(successor => {
-      const duration = graph.node(successor).duration;
+      const edge = graph.edge(node, successor);
+      const duration = edge ? edge.duration : 0;
       ef[successor] = Math.max(ef[successor] || 0, es[node] + duration);
       calculateEF(successor);
     });
   }
 
-  // Obliczamy najpóźniejszy czas zakończenia (LF) i najpóźniejszy czas rozpoczęcia (LS)
   const lf = {};
   const ls = {};
   const endNodes = graph.sinks();
@@ -44,19 +41,18 @@ export function calculateCPM(tasks) {
   function calculateLS(node) {
     const predecessors = graph.predecessors(node);
     predecessors.forEach(predecessor => {
-      const duration = graph.node(node).duration;
+      const edge = graph.edge(predecessor, node);
+      const duration = edge ? edge.duration : 0;
       ls[predecessor] = lf[node] - duration;
       calculateLS(predecessor);
     });
   }
 
-  // Obliczamy margines rezerwy (slack)
   const slack = {};
   graph.nodes().forEach(node => {
     slack[node] = lf[node] - ef[node];
   });
 
-  // Znajdujemy ścieżkę krytyczną
   const criticalPath = [];
   graph.nodes().forEach(node => {
     if (slack[node] === 0) {
@@ -64,7 +60,6 @@ export function calculateCPM(tasks) {
     }
   });
 
-  // Obliczamy długość projektu
   const projectDuration = Math.max(...Object.values(ef));
 
   return {
@@ -77,3 +72,5 @@ export function calculateCPM(tasks) {
     projectDuration
   };
 }
+
+module.exports = { calculateCPM };
