@@ -6,52 +6,60 @@ function calculateCPM(tasks) {
   tasks.forEach(task => {
     graph.setNode(task.id);
     Object.entries(task.dependencies).forEach(([dependency, duration]) => {
-      graph.setEdge(dependency, task.id, { duration });
+      graph.setEdge(dependency, task.id,  duration );
     });
   });
 
-
-
   const es = {};
-  const ef = {};
-  console.log(graph.sources());
-  graph.sources().forEach(node => {
-    es[node] = 0;
-    calculateEF(node);
-  });
+  const first = graph.sources();
+  es[first] = 0;
+  first.forEach(successor=>{
+    calculateEF(successor)
+  })
+  console.log(es);
 
   function calculateEF(node) {
     const successors = graph.successors(node);
-    successors.forEach(successor => {
-      const edge = graph.edge(node, successor);
-      const duration = edge ? edge.duration : 0;
-      ef[successor] = Math.max(ef[successor] || 0, es[node] + duration);
+    const predecessors = graph.predecessors(node);
+    let highest=0;
+    es[node] = 0;
+    predecessors.forEach(predecessor => {
+      const edge = graph.edge(predecessor, node);
+      if(edge+es[predecessor]>highest){
+        highest=edge+es[predecessor];
+      }
+    });
+    es[node]=highest;
+    successors.forEach(successor=>{
       calculateEF(successor);
     });
   }
 
   const lf = {};
-  const ls = {};
-  const endNodes = graph.sinks();
-  endNodes.forEach(node => {
-    lf[node] = ef[node];
-    calculateLS(node);
-  });
+  const last = graph.sinks();
+  lf[last] = es[last];
+  calculateLS(last);
+  console.log(lf);
 
   function calculateLS(node) {
     const predecessors = graph.predecessors(node);
     predecessors.forEach(predecessor => {
       const edge = graph.edge(predecessor, node);
-      const duration = edge ? edge.duration : 0;
-      ls[predecessor] = lf[node] - duration;
+      if(lf[predecessor]==null){
+        lf[predecessor]=lf[node]-edge;
+      }
+      else if(lf[predecessor]>lf[node]-edge){
+        lf[predecessor]=lf[node]-edge;
+      }
       calculateLS(predecessor);
     });
   }
 
   const slack = {};
   graph.nodes().forEach(node => {
-    slack[node] = lf[node] - ef[node];
+    slack[node] = lf[node] - es[node];
   });
+  console.log(slack);
 
   const criticalPath = [];
   graph.nodes().forEach(node => {
@@ -59,17 +67,13 @@ function calculateCPM(tasks) {
       criticalPath.push(node);
     }
   });
-
-  const projectDuration = Math.max(...Object.values(ef));
+  console.log(criticalPath);
 
   return {
     es,
-    ef,
-    ls,
     lf,
     slack,
     criticalPath,
-    projectDuration
   };
 }
 
