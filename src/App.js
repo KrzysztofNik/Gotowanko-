@@ -1,12 +1,16 @@
 import './App.css';
 import CpmTable from "./components/CpmTable";
+import Header from "./components/Header";
+import CpmDescription from "./components/CpmDescription";
 
 function App() {
   return (
-    <div className="">
+    <div className='flex justify-center h-[140vh] pt-10'>
       <header>
       </header>
-        <main className='flex justify-center'>
+        <main>
+            <Header />
+            <CpmDescription />
             <CpmTable />
         </main>
     </div>

@@ -6,6 +6,7 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import {calculateCPM} from "../logic";
 
 const defaultData= [
     {
@@ -46,7 +47,7 @@ const TableCell = ({ getValue, row, column, table }) => {
 };
 
 const columnHelper = createColumnHelper();
-export const columns = [
+const columns = [
     columnHelper.accessor("activity", {
         header: "Activity",
         cell: TableCell,
@@ -74,6 +75,7 @@ export const CpmTable = () => {
     const [data, setData] = useState(() => [...defaultData]);
     const [originalData, setOriginalData] = useState(() => [...defaultData]);
     const [editedRows, setEditedRows] = useState({});
+
     const table = useReactTable({
         data,
         columns,
@@ -109,27 +111,58 @@ export const CpmTable = () => {
             },
         },
     });
+
+
+    const calculateSolution = () => {
+        // TODO: KRISTOF, TO JEST WSTĘPNE FORMATOWANIE DANYCH, MOZESZ TO POD SIEBIE ZMIENIĆ
+        console.log(data); // <--- tutaj są dane z tableki
+
+        const formattedData = data.map(el => {
+
+            // Changing preActivities for this format:
+            // [ { activity: "A", duration: null }, { activity: "B", duration: 5 } ]
+            let newPreActivities = el.preActivity.split(",").map(ac => ac.trim());
+            newPreActivities = newPreActivities.map(ac => {
+                const a = data.find(xd => xd.activity ===  ac);
+                if (!a) return null;
+                return {
+                    activity: ac,
+                    duration: a.duration,
+                }
+            })
+            return {
+                activity: el.activity,
+                preActivities: newPreActivities,
+                duration: el.duration
+            }
+        })
+
+        console.log(formattedData);
+
+        // TODO: otrzymywanie odpowiedzi z twojej funkcji
+        console.log(calculateCPM(formattedData));
+    }
+
     return (
         <div className='flex flex-col py-10'>
             <div className='flex gap-5 '>
                 <button
-                    className='size-10 text-center  border-[#4bbd7f] border-solid border-2'
+                    className='size-10 text-center border-[#4bbd7f] border-solid border-2 p-2 hover:bg-[#4bbd7f] hover:text-white hover:scale-110 transition duration-200'
                     onClick={() => {
                         setData([...data, {
                             activity: "",
                             preActivity: "",
                             duration: null,
-                        }
-                        ])
+                        }]);
                     }}
                 >+</button>
                 <button
-                    className='size-10 text-center border-rose-600 border-solid border-2'
+                    className='size-10 text-center border-rose-600 border-solid border-2 p-2 hover:bg-rose-600 hover:text-white hover:scale-110 transition duration-200'
                     onClick={ () => setData(data.slice(0, data.length -1)) }
                 >-</button>
                 <button
-                    className='h-10 w-28 text-center border-[#4bbd7f] border-solid border-2'
-                    onClick={() => {}}
+                    className='h-10 w-28 text-center border-[#4bbd7f] border-solid border-2 p-2 hover:bg-[#4bbd7f] hover:text-white hover:scale-105 transition duration-200'
+                    onClick={calculateSolution}
                 >
                     Calculate
                 </button>
@@ -164,7 +197,6 @@ export const CpmTable = () => {
                 </tbody>
             </table>
             {/*<pre>{JSON.stringify(data, null, "\t")}</pre>*/}
-
         </div>
     );
 };

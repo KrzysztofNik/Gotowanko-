@@ -1,6 +1,6 @@
 const Graph = require('graphlib').Graph;
 
-function calculateCPM(tasks) {
+export function calculateCPM(tasks) {
   const graph = new Graph({ directed: true });
 
   tasks.forEach(task => {
@@ -73,4 +73,4 @@ function calculateCPM(tasks) {
   };
 }
 
-module.exports = { calculateCPM };
+// module.exports = { calculateCPM };
