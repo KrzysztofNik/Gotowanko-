@@ -11,8 +11,8 @@ import {calculateCPM} from "../logic";
 const defaultData= [
     {
         activity: "",
-        preActivity: "",
-        duration: null,
+        precedingActivities: "",
+        durations: null,
     },
 ];
 const TableCell = ({ getValue, row, column, table }) => {
@@ -55,18 +55,18 @@ const columns = [
             type: "text",
         },
     }),
-    columnHelper.accessor("preActivity", {
-        header: "Preceding Activity",
+    columnHelper.accessor("precedingActivities", {
+        header: "Preceding Activities",
         cell: TableCell,
         meta: {
             type: "text",
         },
     }),
-    columnHelper.accessor("duration", {
-        header: "Duration",
+    columnHelper.accessor("durations", {
+        header: "Durations",
         cell: TableCell,
         meta: {
-            type: "number",
+            type: "text",
         },
     }),
 ];
@@ -114,33 +114,43 @@ export const CpmTable = () => {
 
 
     const calculateSolution = () => {
-        // TODO: KRISTOF, TO JEST WSTĘPNE FORMATOWANIE DANYCH, MOZESZ TO POD SIEBIE ZMIENIĆ
-        console.log(data); // <--- tutaj są dane z tableki
-
         const formattedData = data.map(el => {
-
-            // Changing preActivities for this format:
-            // [ { activity: "A", duration: null }, { activity: "B", duration: 5 } ]
-            let newPreActivities = el.preActivity.split(",").map(ac => ac.trim());
-            newPreActivities = newPreActivities.map(ac => {
-                const a = data.find(xd => xd.activity ===  ac);
-                if (!a) return null;
-                return {
-                    activity: ac,
-                    duration: a.duration,
+            console.log(el);
+            let preActs = el.precedingActivities.split(",").map(ac => ac.trim());
+            preActs = preActs.map(p => {
+                if (p.trim() == false || p.trim() === "-") {
+                    return null
+                } else {
+                    return p;
                 }
             })
-            return {
-                activity: el.activity,
-                preActivities: newPreActivities,
-                duration: el.duration
+
+            let durations = el.durations.split(",").map(ac => ac.trim());
+            durations = durations.map(d => {
+                if (d.trim() == false || d.trim() === "-") {
+                    return null
+                } else {
+                    return d;
+                }
+            })
+
+            const dependencies = new Array(preActNumber);
+            for (let i = 0; i < preActNumber; i++) {
+                dependencies[i] = {
+                    id: preActs[i],
+                    duration: durations[i]
+                }
             }
-        })
 
+            // Trzeba sprawdzić czy to jest git
+            const preActNumber = preActs.length;
+
+            return {
+                id: el.activity,
+                dependencies
+            }
+        });
         console.log(formattedData);
-
-        // TODO: otrzymywanie odpowiedzi z twojej funkcji
-        console.log(calculateCPM(formattedData));
     }
 
     return (
