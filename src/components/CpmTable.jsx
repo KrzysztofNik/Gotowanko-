@@ -125,6 +125,9 @@ export const CpmTable = () => {
                 }
             })
 
+            // Trzeba sprawdzić czy to jest git
+            const preActNumber = preActs.length;
+
             let durations = el.durations.split(",").map(ac => ac.trim());
             durations = durations.map(d => {
                 if (d.trim() == false || d.trim() === "-") {
@@ -142,8 +145,6 @@ export const CpmTable = () => {
                 }
             }
 
-            // Trzeba sprawdzić czy to jest git
-            const preActNumber = preActs.length;
 
             return {
                 id: el.activity,
@@ -151,6 +152,7 @@ export const CpmTable = () => {
             }
         });
         console.log(formattedData);
+        calculateCPM(formattedData);
     }
 
     return (

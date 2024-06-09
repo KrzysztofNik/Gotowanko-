@@ -1,6 +1,6 @@
 // test.js
 
-const { calculateCPM } = require('./logic'); // Importujemy funkcję calculateCPM z pliku cpmCalculator.js
+const { calculateCPM,solveTransportationProblem } = require('./logic'); // Importujemy funkcję calculateCPM z pliku cpmCalculator.js
 
 // Przykładowe dane zadań
 const tasks = [
@@ -14,10 +14,23 @@ const tasks = [
 ];
 
 // Wywołujemy funkcję calculateCPM
-const result = calculateCPM(tasks);
+//const result = calculateCPM(tasks);
+
+const supply = [20, 30];
+const demand = [10, 28, 27];
+const costs = [
+    [8, 14, 17],
+    [12, 9, 19]
+];
+const sellingPrices = [30, 25, 30];
+const purchaseCosts = [10, 12];
+
+const solution = solveTransportationProblem(supply, demand, costs, sellingPrices,purchaseCosts);
+solution.forEach(solutio=>{
+  console.log(solutio);
+})
 
 // Wyświetlamy wyniki
-console.log("Earliest Start for D:", result.es['D']); // Oczekiwane: 5
-console.log("Earliest Finish for D:", result.lf['D']); // Oczekiwane: 7
-console.log("Expected Project Duration:", 12);
-console.log("Actual Project Duration:", result.criticalPath);
+//console.log("Earliest Start for D:", result.es['D']);
+//console.log("Earliest Finish for D:", result.lf['D']);
+//console.log("Actual Project Duration:", result.criticalPath);

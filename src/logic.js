@@ -1,13 +1,20 @@
 const Graph = require('graphlib').Graph;
 
-export function calculateCPM(tasks) {
+function calculateCPM(tasks) {
   const graph = new Graph({ directed: true });
+
 
   tasks.forEach(task => {
     graph.setNode(task.id);
-    Object.entries(task.dependencies).forEach(([dependency, duration]) => {
-      graph.setEdge(dependency, task.id,  duration );
-    });
+    console.log(task.dependencies);
+    task.dependencies.forEach(dependencie=>{
+      if (parseInt(dependencie.duration)!='null' || dependencie.id!=null){
+        graph.setEdge(dependencie.id,task.id,parseInt(dependencie.duration));
+      }
+    })
+    //Object.entries(task.dependencies).forEach(([dependency, duration]) => {
+    //  graph.setEdge(dependency, task.id,  duration );
+    //});
   });
 
   const es = {};
@@ -40,6 +47,7 @@ export function calculateCPM(tasks) {
   lf[last] = es[last];
   calculateLS(last);
   console.log(lf);
+
 
   function calculateLS(node) {
     const predecessors = graph.predecessors(node);
@@ -77,4 +85,55 @@ export function calculateCPM(tasks) {
   };
 }
 
-// module.exports = { calculateCPM };
+function solveTransportationProblem(supply, demand, costs, sellingPrices,purchaseCosts) {
+
+  const profits = costs.map((row, i) => row.map((cost, j) => sellingPrices[j] - cost - purchaseCosts[i]));
+  console.log(profits);
+
+  const numSuppliers = supply.length;
+  const numConsumers = demand.length;
+
+  // Initialize the solution matrix with zeros
+  const solution = Array.from({ length: numSuppliers }, () => Array(numConsumers).fill(0));
+  
+  // Clone supply and demand to work with them
+  let remainingSupply = [...supply];
+  let remainingDemand = [...demand];
+  
+  // Function to find the maximum profit cell
+  function findMaxProfitCell() {
+      let maxProfit = -Infinity;
+      let maxCell = [-1, -1];
+
+      for (let i = 0; i < numSuppliers; i++) {
+          for (let j = 0; j < numConsumers; j++) {
+              const profit = profits[i][j];
+              if (remainingSupply[i] > 0 && remainingDemand[j] > 0 && profit > maxProfit) {
+                  maxProfit = profit;
+                  maxCell = [i, j];
+              }
+          }
+      }
+
+      return maxCell;
+  }
+
+  // Main loop to allocate supplies to demands
+  while (true) {
+      const [i, j] = findMaxProfitCell();
+
+      if (i === -1 || j === -1) {
+          break;  // No more profitable cells to allocate
+      }
+
+      const allocation = Math.min(remainingSupply[i], remainingDemand[j]);
+      solution[i][j] = allocation;
+      remainingSupply[i] -= allocation;
+      remainingDemand[j] -= allocation;
+  }
+
+  return solution;
+}
+
+
+ module.exports = { calculateCPM,solveTransportationProblem };
