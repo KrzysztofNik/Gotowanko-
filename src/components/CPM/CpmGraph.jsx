@@ -10,7 +10,7 @@ const convertDataToGraph = (formattedData, criticalPath, es, lf, slack) => {
             nodes.push({
                 id,
                 label: id,
-                subLabel: `ES: ${es[id]}, LF: ${lf[id]}, Slack: ${slack[id]}`,
+                subLabel: `E: ${es[id]}, L: ${lf[id]}, Slack: ${slack[id]}`,
 
                 style: {
                     color: '#333',

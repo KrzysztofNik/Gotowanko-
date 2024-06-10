@@ -16,7 +16,7 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
     const createColNames = (num, name) => {
         const names = [];
         for (let i = 1; i <= num; i++) {
-            names.push(`${name} ${i}`);
+            names.push(`${name}${i}`);
         }
         return names;
     }
@@ -75,7 +75,7 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
             for (let j = 0; j < receiversNum; j++) {
                 row[`receiver${j + 1}`] = solution[i][j];
             }
-            row["supplierName"] = `Supplier ${i + 1}`;
+            row["supplierName"] = `supplier${i + 1}`;
             result.push(row);
         }
         return result;
@@ -103,6 +103,11 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
         const sellingPrices = convertToArray(sellPrice[0], receiversNum, "sellPrice");
         const costs = convertMatrixToArray(data, suppliersNum, receiversNum);
 
+        console.log("supply", supplyData)
+        console.log("demand", demandData)
+        console.log("costs", costs)
+        console.log("sellingPrices", sellingPrices)
+        console.log("purchaseCosts", purchaseCosts)
         const solution = solveTransportationProblem(supply, demand, costs, sellingPrices, purchaseCosts);
         console.log("Solution:", solution);
         setFinalProfit(solution.finalProfit)
@@ -117,28 +122,28 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
         <>
             <InfoHeader>Insert supply of suppliers</InfoHeader>
             <Table
-                colNames={createColNames(suppliersNum, "Supplier")}
+                colNames={createColNames(suppliersNum, "supplier")}
                 data={supplyData}
                 setData={setSupplyData}
             />
 
             <InfoHeader>Insert price of purchase of suppliers</InfoHeader>
             <Table
-                colNames={createColNames(suppliersNum, "Purchase Price")}
+                colNames={createColNames(suppliersNum, "purchasePrice")}
                 data={purchasePrice}
                 setData={setPurchasePrice}
             />
 
             <InfoHeader>Insert demand of receivers</InfoHeader>
             <Table
-                colNames={createColNames(receiversNum, "Receiver")}
+                colNames={createColNames(receiversNum, "receiver")}
                 data={demandData}
                 setData={setDemandData}
             />
 
             <InfoHeader>Insert sell price of receivers</InfoHeader>
             <Table
-                colNames={createColNames(receiversNum, "Sell Price")}
+                colNames={createColNames(receiversNum, "sellPrice")}
                 data={sellPrice}
                 setData={setSellPrice}
             />
