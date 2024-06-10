@@ -6,7 +6,6 @@ const Layout = () => {
         <div className='flex flex-col items-center pt-10 bg-main-bg text-main-text'>
             <header>
                 <nav className="flex justify-center gap-6 mb-4 text-2xl">
-                    <Link to="/" className="hover:text-main-green">Home</Link>
                     <Link to="/cpm-solver" className="hover:text-main-green">CPM Solver</Link>
                     <Link to="/agent-solver" className="hover:text-main-green">Agent Solver</Link>
                 </nav>

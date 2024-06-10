@@ -11,10 +11,11 @@ module.exports = {
       'main-bg': '#252525',
       'second-bg': '#1e1e1e',
       'third-bg': '#313131',
-      'main-text': "#FAFAFA",
+      'main-text': "#efefef",
       'second-text' : '#161616'
-    }
+    },
   },
+
   plugins: [],
 }
 

@@ -114,6 +114,7 @@ export const CpmTable = () => {
 
 
     const calculateSolution = () => {
+        console.log("siema")
         const formattedData = data.map(el => {
             console.log(el);
             let preActs = el.precedingActivities.split(",").map(ac => ac.trim());
@@ -151,8 +152,9 @@ export const CpmTable = () => {
                 dependencies
             }
         });
-        console.log(formattedData);
-        calculateCPM(formattedData);
+        console.log("gówno" + formattedData);
+        console.log("siema");
+        console.log("SOLUTION: " + calculateCPM(formattedData));
     }
 
     return (

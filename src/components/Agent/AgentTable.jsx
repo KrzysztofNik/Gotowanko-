@@ -23,9 +23,9 @@ export const AgentTable = () => {
         <>
             <form
                 onSubmit={submitHandler}
-                className="w-[720px] my-20 flex flex-col items-center gap-10 text-xl"
+                className="w-[720px] my-20 flex flex-col items-center gap-10 "
             >
-                <label className="flex gap-10 justify-center items-center">
+                <label className="flex gap-10 justify-center items-center text-xl">
                     How many suppliers?
                     <input
                         type="number"
@@ -38,7 +38,7 @@ export const AgentTable = () => {
                     />
                 </label>
 
-                <label className="flex gap-10 justify-center items-center">
+                <label className="flex gap-10 justify-center items-center text-xl">
                     How many receivers?
                     <input type="number"
                            name="receivers-num"
@@ -52,7 +52,7 @@ export const AgentTable = () => {
 
                 <button
                     type="submit"
-                    className="w-[35%] p-3 bg-main-green rounded-md hover:scale-105 duration-200"
+                    className='flex justify-center items-center h-10 w-56 font-bold text-center border-[#4bbd7f] border-solid border-2 p-2 hover:bg-[#4bbd7f] hover:text-white hover:scale-105 transition duration-200'
                 >
                     Generate inputs
                 </button>

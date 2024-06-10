@@ -1,7 +1,7 @@
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import "../../styles/table.css";
 
-const MatrixTable = ({ data, setData, suppliersNum, receiversNum }) => {
+const MatrixTable = ({ data, setData, suppliersNum, receiversNum, readOnly = false }) => {
     const columnHelper = createColumnHelper();
 
     const columns = [
@@ -17,6 +17,10 @@ const MatrixTable = ({ data, setData, suppliersNum, receiversNum }) => {
             header: () => `Receiver ${r}`,
             cell: info => {
                 const value = info.getValue() ?? 0;
+
+                if (readOnly) {
+                    return <span>{value}</span>;
+                }
 
                 const handleChange = (e) => {
                     const newValue = parseFloat(e.target.value);

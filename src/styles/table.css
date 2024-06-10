@@ -10,6 +10,8 @@ table {
 table thead tr th {
     background-color: #4bbd7f;
     text-align: center;
+    font-size: 1rem;
+    font-weight: bolder;
 }
 table th,
 table td {
@@ -17,6 +19,9 @@ table td {
 }
 table tbody tr {
     border-bottom: 1px solid #dddddd;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
 }
 table tbody tr:last-of-type {
     border-bottom: 2px solid #4bbd7f;
@@ -34,6 +39,7 @@ table td input {
     border: 2px #d0d9d4 solid;
     text-align: center;
 }
+
 /*table td:first-child input {*/
 /*    width: 50px;*/
 /*}*/
