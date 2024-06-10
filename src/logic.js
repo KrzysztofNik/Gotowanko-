@@ -77,11 +77,15 @@ function calculateCPM(tasks) {
   });
   console.log(criticalPath);
 
+    let criticalPathValue=es[criticalPath.at(-1)];
+    console.log(criticalPathValue);
+
   return {
     es,
     lf,
     slack,
     criticalPath,
+    criticalPathValue,
   };
 }
 
@@ -93,14 +97,11 @@ function solveTransportationProblem(supply, demand, costs, sellingPrices,purchas
   const numSuppliers = supply.length;
   const numConsumers = demand.length;
 
-  // Initialize the solution matrix with zeros
   const solution = Array.from({ length: numSuppliers }, () => Array(numConsumers).fill(0));
   
-  // Clone supply and demand to work with them
   let remainingSupply = [...supply];
   let remainingDemand = [...demand];
   
-  // Function to find the maximum profit cell
   function findMaxProfitCell() {
       let maxProfit = -Infinity;
       let maxCell = [-1, -1];
@@ -118,12 +119,11 @@ function solveTransportationProblem(supply, demand, costs, sellingPrices,purchas
       return maxCell;
   }
 
-  // Main loop to allocate supplies to demands
   while (true) {
       const [i, j] = findMaxProfitCell();
 
       if (i === -1 || j === -1) {
-          break;  // No more profitable cells to allocate
+          break;  
       }
 
       const allocation = Math.min(remainingSupply[i], remainingDemand[j]);
@@ -132,7 +132,14 @@ function solveTransportationProblem(supply, demand, costs, sellingPrices,purchas
       remainingDemand[j] -= allocation;
   }
 
-  return solution;
+  let finalProfit=0;
+  for(let i=0;i<solution.length;i++){
+    for(let j=0;j<solution[i].length;j++){
+      finalProfit+=solution[i][j]*profits[i][j];
+    }
+  }
+
+  return {solution, finalProfit};
 }
 
 
