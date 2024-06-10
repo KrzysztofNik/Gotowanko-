@@ -3,12 +3,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Source Sans Pro", sans-serif;
-    scroll-behavior: smooth;
-    color-scheme: dark;
-
-}
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*    font-family: "Source Sans Pro", sans-serif;*/
+/*    scroll-behavior: smooth;*/
+/*    color-scheme: dark;*/
+/*    background-color: #242624;*/
+/*}*/

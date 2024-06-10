@@ -1,14 +1,14 @@
 const CpmDescription = () => {
     return (
         <div className="w-[720px] text-left">
-            <h2 className="text-xl font-semibold text-[#4bbd7f] pb-2">About Critical Path Method (CPM)</h2>
+            <h2 className="text-xl font-semibold text-main-green pb-2">About Critical Path Method (CPM)</h2>
             <p className="text-md mb-6">
                 The Critical Path Method (CPM) is a project modeling technique used in project management to identify
                 the most important sequence of tasks (critical path) that determines the minimum time required to complete the project.
                 It helps to schedule a set of project activities, identify the earliest and latest that each activity can start and finish
                 without making the project longer, and highlight tasks that are critical and which have "slack" or extra time.
             </p>
-            <h3 className="text-xl font-semibold text-[#4bbd7f] pb-2">How to Use This Application</h3>
+            <h3 className="text-xl font-semibold text-main-green pb-2">How to Use This Application</h3>
             <ul className="text-left mx-auto" style={{ maxWidth: '800px' }}>
                 <li><b>Adding a Row:</b> Click the "+" button to add a new row to the table.</li>
                 <li><b>Removing a Row:</b> Click the "-" button to remove the last row from the table.</li>
