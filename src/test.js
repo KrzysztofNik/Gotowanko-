@@ -1,8 +1,7 @@
-// test.js
 
-const { calculateCPM,solveTransportationProblem } = require('./logic'); // Importujemy funkcję calculateCPM z pliku cpmCalculator.js
+const { calculateCPM,solveTransportationProblem } = require('./logic'); 
 
-// Przykładowe dane zadań
+
 const tasks = [
   { id: 'A', dependencies: {} },
   { id: 'B', dependencies: { 'A': 29 } },
@@ -13,7 +12,6 @@ const tasks = [
   { id: 'G', dependencies: { 'D': 68, 'E': 85, 'F':21 } }
 ];
 
-// Wywołujemy funkcję calculateCPM
 //const result = calculateCPM(tasks);
 
 const supply = [20, 30];
