@@ -50,6 +50,7 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
     const [sellPrice, setSellPrice] = useState(createInitialData(receiversNum, "sellPrice"))
     const [data, setData] = useState(createInitialMatrix(suppliersNum, receiversNum));
     const [solution, setSolution] = useState(null);
+    const [finalProfit, setFinalProfit] = useState(null);
 
     const convertToArray = (obj, num, name) => {
         return Array.from({ length: num }, (_, i) => parseFloat(obj[`${name}${i + 1}`]));
@@ -104,8 +105,9 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
 
         const solution = solveTransportationProblem(supply, demand, costs, sellingPrices, purchaseCosts);
         console.log("Solution:", solution);
+        setFinalProfit(solution.finalProfit)
 
-        const formattedSolution = convertSolutionToObject(solution, suppliersNum, receiversNum);
+        const formattedSolution = convertSolutionToObject(solution.solution, suppliersNum, receiversNum);
         console.log("Formatted Solution:", formattedSolution);
 
         setSolution(formattedSolution); // Store the formatted solution in state
@@ -157,6 +159,7 @@ export const AgentTransportCostTable = ({ suppliersNum, receiversNum }) => {
             {solution && (
                 <div>
                     <InfoHeader color={"main-green"}>Solution</InfoHeader>
+                    <InfoHeader fontSize="1.1rem">Final profit: {finalProfit}</InfoHeader>
                     <MatrixTable
                         data={solution}
                         setData={() => {}}

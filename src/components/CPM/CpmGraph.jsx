@@ -45,7 +45,7 @@ const CpmGraph = ({ data, criticalPath, es, lf, slack }) => {
 
     return (
         <div style={{ position: "relative", height: '600px', width: '100%', marginTop: '20px', border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-            <GraphCanvas nodes={nodes} edges={edges} labelType="all" theme={darkTheme}  layoutType="forceDirected2d" />
+            <GraphCanvas nodes={nodes} edges={edges} labelType="all" edgeLabelPosition="natural" theme={darkTheme}  layoutType="forceDirected2d" />
         </div>
     );
 };

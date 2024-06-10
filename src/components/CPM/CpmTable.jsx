@@ -3,6 +3,7 @@ import "../../styles/table.css";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { calculateCPM } from "../../logic";
 import CpmGraph from "./CpmGraph";
+import InfoHeader from "../../UI/InfoHeader";
 
 const defaultData = [
     {
@@ -136,12 +137,9 @@ export const CpmTable = () => {
             };
         });
 
-        // const cpmResult = calculateCPM(formattedData);
-        // console.log("SOLUTION", cpmResult);
-        // setGraphData(formattedData);
-        // setCriticalPath(cpmResult.criticalPath);
 
         const cpmResult = calculateCPM(formattedData);
+        console.log(cpmResult)
         console.log("SOLUTION", cpmResult);
         setSolution({ ...cpmResult, formattedData });
     };
@@ -201,7 +199,9 @@ export const CpmTable = () => {
                     Calculate
                 </button>
             </div>
-            {solution && (
+            {solution && (<>
+                <InfoHeader color="main-green">Solution</InfoHeader>
+                <InfoHeader fontSize="1rem">Critical path value: {solution.criticalPathValue}</InfoHeader>
                 <CpmGraph
                     data={solution.formattedData}
                     criticalPath={solution.criticalPath}
@@ -209,7 +209,7 @@ export const CpmTable = () => {
                     lf={solution.lf}
                     slack={solution.slack}
                 />
-            )}
+            </>)}
         </div>
     );
 };
