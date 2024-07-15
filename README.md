@@ -3,6 +3,7 @@ The project is a web app that can solve both critical path method and Transporta
 ## Usage
 ### CPM
 User can add and delete nodes, then he can give the node a name, it's preceding activities and durations of connections
-
+![](https://github.com/KrzysztofNik/Gotowanko-/blob/main/images/Cpm-demo.gif)
 ### Transportation Problem
 User can input the number of suppliers and recivers, then app generates input boxes for supply, purchase prices, demand, selling prices and unitary costs of transportation
+![](https://github.com/KrzysztofNik/Gotowanko-/blob/main/images/Transportation-demo.gif)
